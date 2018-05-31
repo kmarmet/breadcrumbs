@@ -2,7 +2,6 @@
    function breadcrumbs() {
       $home             = "<a href='/index.php'>HOME</a>";
       $separator        = "<span> / </span>";
-      $job_story_number = $_GET['show'];
       $isDirectory      = false;
 
       // Get URL array
@@ -41,31 +40,19 @@
          // Add necessary pieces to form URL string
          // Adjust for directories
          if ($isDirectory === true) {
-            // Custom
-            if ($crumb === 'job stories') {
-               $url = '/job-stories.php';
-            }
-            else {
-               $url = "/" . str_replace(' ', '-', $crumb);
-            }
+            $url = "/" . str_replace(' ', '-', $crumb);
          }
          else {
             $url = str_replace(' ', '-', $crumb) . '.php';
          }
 
-         // CUSTOM -> If page is Job Story single page
-         if ($job_story_number) {
-            echo wrapCrumb($url, $crumb) . $separator . "<a href='/job-stories.php?show={$job_story_number}'>PROFILE $job_story_number</a>";
+         if ($index === $end) {
+            echo wrapCrumb($_SERVER['REQUEST_URI'], $crumb);
          }
-         // DEFAULT
          else {
-            if ($index === $end) {
-               echo wrapCrumb($_SERVER['REQUEST_URI'], $crumb);
-            }
-            else {
-               echo wrapCrumb($url, $crumb) . $separator;
-            }
+            echo wrapCrumb($url, $crumb) . $separator;
          }
+         
       }
 
       // End Breadcrumbs div
